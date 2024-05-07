@@ -19,7 +19,7 @@ function App() {
     };
 
     try {
-      const response = await axios.get('/default', requestBody, config);
+      const response = await axios.get('https://korwk8plv9.execute-api.us-west-1.amazonaws.com/default', requestBody, config);
       setData(response.data);
     } catch (error) {
       console.error(error);
