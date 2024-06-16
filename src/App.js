@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import Navbar from './components/ui/navbar';
-import axios from 'axios';
 import LoginPage from './components/pages/LoginPage';
-import Testing from './components/pages/Testing';
+import HomePage from './components/pages/HomePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/testing" element={<Testing />} />
+          <Route path="/home" element={<HomePage />} />
         </Routes>
       </div>
     </Router>

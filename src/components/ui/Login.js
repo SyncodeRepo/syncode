@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 function Login({ onLoginSuccess }) {
@@ -8,6 +9,7 @@ function Login({ onLoginSuccess }) {
     const [registered, setRegistered] = useState(false);
     const [role, setRole] = useState(""); // Added to track the role of the user
     const [school, setSchool] = useState(""); // Added to track the school name
+    const navigate = useNavigate();
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -118,6 +120,7 @@ function Login({ onLoginSuccess }) {
             console.error('Error:', error);
         });
         setRegistered(true)
+        navigate('/home')
     }
 
   return (
