@@ -94,7 +94,29 @@ function Login({ onLoginSuccess }) {
                 console.error('Registration failed:', error);
             });
         }
-
+        var roleVal;
+        if (role === 'student') {
+            roleVal = 1;
+        } else {
+            roleVal = 0;
+        }
+        fetch('https://ah0wbtref0.execute-api.us-west-1.amazonaws.com/default/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.REACT_APP_API_KEY
+            },
+            body: JSON.stringify({
+                ID: profile.id,
+                FirstName: profile.given_name,
+                LastName: profile.family_name,
+                Email: profile.email,
+                Role: roleVal
+            })
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
         setRegistered(true)
     }
 
