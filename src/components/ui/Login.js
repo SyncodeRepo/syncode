@@ -127,17 +127,7 @@ function Login({ onLoginSuccess }) {
     <div>
         <br />
         <br />
-        {profile ? (
-            <div className="text-center">
-                <img src={profile.picture} alt="user image" className="mx-auto" />
-                <h3>User Logged in</h3>
-                <p>Name: {profile.name}</p>
-                <p>Email Address: {profile.email}</p>
-                <p>ID: {profile.id}</p>
-                <br />
-                <br />
-            </div>
-        ) : (
+        {profile ? navigate('/home') : (
             <button onClick={login}>Sign in with Google 🚀 </button>
         )}
         { (profile && !registered) ? (
