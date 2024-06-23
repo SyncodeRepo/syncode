@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import React, {useState, useEffect, useContext} from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router';
+import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 
 function Login({ onLoginSuccess }) {
@@ -10,6 +11,7 @@ function Login({ onLoginSuccess }) {
     const [role, setRole] = useState(""); // Added to track the role of the user
     const [school, setSchool] = useState(""); // Added to track the school name
     const navigate = useNavigate();
+    const authContext = useContext(AuthContext);
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -38,16 +40,29 @@ function Login({ onLoginSuccess }) {
                             .then(response => response.json())
                             .then(data => {
                                 if (data !== null) {
+                                    console.log("User is registered");
                                     setRegistered(true);
+                                    authContext.setUser({
+                                        email: res.data.email,
+                                        role: data.role === 1 ? 'student' : 'teacher',
+                                        id: res.data.id,
+                                        first_name: res.data.given_name,
+                                        last_name: res.data.family_name
+                                    });
+                                } else {
+                                    console.log("User is not registered");
+                                    setRegistered(false);
                                 }
                                 console.log(data);
                             })
-                            .catch(error => console.error('Error:', error));
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
                     })
                     .catch((err) => console.log(err));
             }
         },
-        [ user ]
+        [ user, authContext ]
     );
 
     const register = () => {
@@ -83,7 +98,7 @@ function Login({ onLoginSuccess }) {
                     id: profile.id,
                     firstName: profile.given_name,
                     lastName: profile.family_name,
-                    email: profile.name,
+                    email: profile.email,
                     schoolName: school
                 })
             })
@@ -119,18 +134,26 @@ function Login({ onLoginSuccess }) {
         .catch(error => {
             console.error('Error:', error);
         });
+        authContext.setUser({
+            email: profile.email,
+            role: role,
+            id: profile.id,
+            first_name: profile.given_name,
+            last_name: profile.family_name
+        });
         setRegistered(true)
         navigate('/home')
+
     }
 
   return (
     <div>
         <br />
         <br />
-        {profile ? navigate('/home') : (
+        {profile && registered ? navigate('/home') : (
             <button onClick={login}>Sign in with Google 🚀 </button>
         )}
-        { (profile && !registered) ? (
+        { (!registered) ? (
             <div>
                 <p>It looks like you don't have an account! Don't worry, we will register you. First: are you a teacher or student?</p>
                 <div className="form-control">

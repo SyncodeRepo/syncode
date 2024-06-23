@@ -3,10 +3,10 @@ import axios from 'axios';
 
 function App() {
   useEffect(() => {
-    fetch('https://ah0wbtref0.execute-api.us-west-1.amazonaws.com/default/users/2', {
+    fetch('https://ah0wbtref0.execute-api.us-west-1.amazonaws.com/default/students/113993668318831450519/classes', {
       method: 'GET',
       headers: {
-        'x-api-key': 'y3Q7tGibFI9h9PaQ6O9ZA2NJRLSN37hH1mY92p8W'
+        'x-api-key': process.env.REACT_APP_API_KEY
       }
     })
       .then(response => response.json())
