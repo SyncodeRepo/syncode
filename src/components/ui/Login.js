@@ -40,11 +40,10 @@ function Login({ onLoginSuccess }) {
                             .then(response => response.json())
                             .then(data => {
                                 if (data !== null) {
-                                    console.log("User is registered");
                                     setRegistered(true);
                                     authContext.setUser({
                                         email: res.data.email,
-                                        role: data.role === 1 ? 'student' : 'teacher',
+                                        role: data.Role === 1 ? 'students' : 'teachers',
                                         id: res.data.id,
                                         first_name: res.data.given_name,
                                         last_name: res.data.family_name
@@ -95,11 +94,11 @@ function Login({ onLoginSuccess }) {
                     'x-api-key': process.env.REACT_APP_API_KEY
                 },
                 body: JSON.stringify({
-                    id: profile.id,
-                    firstName: profile.given_name,
-                    lastName: profile.family_name,
-                    email: profile.email,
-                    schoolName: school
+                    ID: profile.id,
+                    FirstName: profile.given_name,
+                    LastName: profile.family_name,
+                    Email: profile.email,
+                    SchoolName: school
                 })
             })
             .then(console.log("rahh"))
@@ -134,6 +133,7 @@ function Login({ onLoginSuccess }) {
         .catch(error => {
             console.error('Error:', error);
         });
+        setRole(role + "s");
         authContext.setUser({
             email: profile.email,
             role: role,
@@ -153,7 +153,7 @@ function Login({ onLoginSuccess }) {
         {profile && registered ? navigate('/home') : (
             <button onClick={login}>Sign in with Google 🚀 </button>
         )}
-        { (!registered) ? (
+        { (!registered && user) ? (
             <div>
                 <p>It looks like you don't have an account! Don't worry, we will register you. First: are you a teacher or student?</p>
                 <div className="form-control">
