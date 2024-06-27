@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { AuthContext } from '../../context/AuthContext'; // Adjust the import path according to your project structure
 import { addStudentClass } from '../utilities/Classes'; // Import the addStudentClass function
 
@@ -59,7 +60,7 @@ function HomePage() {
                             <p>Teacher ID: {classInfo.teacher_id}</p>
                             <p>Description: {classInfo.class_description}</p>
                             <div className="card-actions justify-end">
-                                <button className="btn btn-primary">More Info</button>
+                                <Link to={`/classes/${classInfo.class_id}`} className="btn btn-primary">More Info</Link>
                             </div>
                         </div>
                     </div>
